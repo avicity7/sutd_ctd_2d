@@ -22,14 +22,16 @@ def evaluate_recursively(arr, to_replace, f, tolerance):
     return "No root!"
 
 def find_guesses(f, to_replace):
-  x = random.uniform(-100, 100)
-  y = random.uniform(-100, 100)
-  arr = [(x, evaluate(f, to_replace, x)), (y, evaluate(f, to_replace, y))]
+  def find_two():
+    x = random.uniform(-100, 100)
+    y = random.uniform(-100, 100)
+    return [(x, evaluate(f, to_replace, x)), (y, evaluate(f, to_replace, y))]
+
+  arr = find_two()   
+
   while arr[-1][1] == arr[-2][1]:
     try:
-      x = random.uniform(-100, 100)
-      y = random.uniform(-100, 100)
-      arr = [(x, evaluate(f, to_replace, x)), (y, evaluate(f, to_replace, y))]
+      arr = find_two()
     except:
       continue
   
@@ -37,15 +39,19 @@ def find_guesses(f, to_replace):
 
 def solve(f, tolerance):
   to_replace = parse(f)
-  arr = find_guesses(f, to_replace) 
-  out = evaluate_recursively(arr, to_replace, f, tolerance) if arr[0][1] != 0 and arr[1][1] != 0 else 0
+  
+  def get_solution():
+    arr = find_guesses(f, to_replace) 
+    return evaluate_recursively(arr, to_replace, f, tolerance) if arr[0][1] != 0 and arr[1][1] != 0 else 0
+  
+  out = get_solution()
+
   for _ in range(1000):
     if out != "No root!":
       break
     else:
       try:
-        arr = find_guesses(f, to_replace) 
-        out = evaluate_recursively(arr, to_replace, f, tolerance) if arr[0][1] != 0 and arr[1][1] != 0 else 0
+        out = get_solution()
       except:
         continue
   
