@@ -47,7 +47,7 @@ def solve(f, tolerance):
   out = get_solution()
 
   for _ in range(1000):
-    if out != "No root!":
+    if type(out) != str:
       break
     else:
       try:
