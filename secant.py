@@ -46,7 +46,7 @@ def solve(f, tolerance):
   
   out = get_solution()
 
-  for _ in range(1000):
+  for _ in range(100000):
     if type(out) != str:
       break
     else:
